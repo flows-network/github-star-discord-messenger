@@ -1,18 +1,17 @@
 use discord_flows::create_text_message_in_channel;
 use dotenv::dotenv;
-use github_flows::{listen_to_event, EventPayload, GithubLogin::Provided};
+use github_flows::{listen_to_event, EventPayload,  GithubLogin::Default};
 use std::env;
 
 #[no_mangle]
 #[tokio::main(flavor = "current_thread")]
 pub async fn run() -> anyhow::Result<()> {
     dotenv().ok();
-    let github_login = env::var("github_login").unwrap_or("alabulei1".to_string());
     let github_owner = env::var("github_owner").unwrap_or("alabulei1".to_string());
     let github_repo = env::var("github_repo").unwrap_or("a-test".to_string());
 
     listen_to_event(
-        &Provided(github_login),
+        &Default,
         &github_owner,
         &github_repo,
         vec!["star"],
